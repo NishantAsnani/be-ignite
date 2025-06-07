@@ -7,6 +7,7 @@ const { createModels } = require('./lib/create-models');
 const { createRoutes } = require('./lib/create-routes');
 const { createUtils } = require('./lib/create-utils');
 const { execSync } = require('child_process');
+const {createServices} = require('./lib/create-services');
 const dirPath = process.cwd();
 
 function setupProject() {
@@ -17,12 +18,52 @@ function setupProject() {
   });
 }
 
+function isGitInstalled() {
+  try {
+    execSync('git --version', { stdio: 'ignore' });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function tryGitInit() {
+  if (!isGitInstalled()) {
+    console.warn('Git not installed. Skipping Git setup.');
+    return;
+  }
+
+  if (fs.existsSync(path.join(dirPath, '.git'))) {
+    console.log('Existing Git repo found. Skipping Git init.');
+    return;
+  }
+
+  try {
+    execSync('git init', { cwd: dirPath });
+    execSync('git add -A', { cwd: dirPath });
+    execSync('git commit -m "Initial commit from create-backend-app"', {
+      cwd: dirPath,
+    });
+
+    if(!fs.existsSync(path.join(dirPath, '.gitignore'))) {
+      fs.writeFileSync(path.join(dirPath, '.gitignore'), 'node_modules/\n.env');
+    }
+    
+    console.log('Git initialized and initial commit created.');
+  } catch {
+    console.warn('Git repo not initialized. You can do it manually.');
+  }
+}
+
+
 program.command('create-backend-app')
 .description('Create a new backend application')
 .action(() => {
+  try{
   console.log('Creating a new backend application...');
   console.log('Installing dependencies...');
   setupProject();
+  tryGitInit()
   createApp()
   createControllers()
   createDb()
@@ -30,7 +71,12 @@ program.command('create-backend-app')
   createModels()
   createRoutes()
   createUtils()
+  createServices()
   console.log('Backend application created successfully!');
+  }catch(err){
+    console.error('Error creating backend application:', err.message);
+  }
+  
 });
 
 program.parse(process.argv);
