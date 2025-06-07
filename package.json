@@ -2,8 +2,11 @@
   "name": "be-create-app",
   "version": "1.0.0",
   "main": "app.js",
+  "bin":{
+    "be-create-app": "app.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
   "keywords": [],
   "author": "",

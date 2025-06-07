@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const {program}=require('commander');
 const {createApp} = require('./lib/create-app');
 const {createControllers} = require('./lib/create-controllers');
@@ -48,7 +49,7 @@ function tryGitInit() {
     if(!fs.existsSync(path.join(dirPath, '.gitignore'))) {
       fs.writeFileSync(path.join(dirPath, '.gitignore'), 'node_modules/\n.env');
     }
-    
+
     console.log('Git initialized and initial commit created.');
   } catch {
     console.warn('Git repo not initialized. You can do it manually.');
