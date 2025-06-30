@@ -1,6 +1,6 @@
 {
-  "name":"backsmith",
-  "version": "1.7.0",
+  "name": "backsmith",
+  "version": "1.8.0",
   "main": "app.js",
   "bin": {
     "backsmith": "app.js"
