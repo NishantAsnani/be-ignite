@@ -7,21 +7,40 @@ const { createMiddleware } = require('./lib/create-middleware');
 const { createModels } = require('./lib/create-models');
 const { createRoutes } = require('./lib/create-routes');
 const { createUtils } = require('./lib/create-utils');
-const { execSync } = require('child_process');
+const { execSync,exec } = require('child_process');
 const {createServices} = require('./lib/create-services');
 const dirPath = process.cwd();
 const fs = require('fs');
 const path = require('path');
+const ora = require('ora');
 
 
 
 function setupProject() {
-  execSync('npm init -y', { cwd: process.cwd(), stdio: 'inherit' });
-  execSync('npm install express dotenv cors mongoose jsonwebtoken body-parser bcrypt', {
-    cwd: process.cwd(),
-    stdio: 'inherit'
+  return new Promise((resolve, reject) => {
+    const initSpinner = ora('Initializing npm...').start();
+    exec('npm init -y', { cwd: process.cwd() }, (err) => {
+      if (err) {
+        initSpinner.fail('Failed to initialize npm.');
+        return reject(err);
+      }
+      initSpinner.succeed('npm initialized.');
+
+      const installSpinner = ora('Installing dependencies...').start();
+      exec('npm install express dotenv cors mongoose jsonwebtoken body-parser bcrypt', {
+        cwd: process.cwd(),
+      }, (err) => {
+        if (err) {
+          installSpinner.fail('Failed to install dependencies.');
+          return reject(err);
+        }
+        installSpinner.succeed('Dependencies installed.');
+        resolve();
+      });
+    });
   });
 }
+
 
 function isGitInstalled() {
   try {
@@ -33,32 +52,52 @@ function isGitInstalled() {
 }
 
 function tryGitInit() {
-  if (!isGitInstalled()) {
-    console.warn('Git not installed. Skipping Git setup.');
-    return;
-  }
-
-  if (fs.existsSync(path.join(dirPath, '.git'))) {
-    console.log('Existing Git repo found. Skipping Git init.');
-    return;
-  }
-
-  try {
-    execSync('git init', { cwd: dirPath });
-    execSync('git add -A', { cwd: dirPath });
-    execSync('git commit -m "Initial commit from create-backend-app"', {
-      cwd: dirPath,
-    });
-
-    if(!fs.existsSync(path.join(dirPath, '.gitignore'))) {
-      fs.writeFileSync(path.join(dirPath, '.gitignore'), 'node_modules/\n.env');
+  return new Promise((resolve) => {
+    if (!isGitInstalled()) {
+      console.warn('Git not installed. Skipping Git setup.');
+      return resolve();
     }
 
-    console.log('Git initialized and initial commit created.');
-  } catch {
-    console.warn('Git repo not initialized. You can do it manually.');
-  }
+    if (fs.existsSync(path.join(dirPath, '.git'))) {
+      console.log('Existing Git repo found. Skipping Git init.');
+      return resolve();
+    }
+
+    const spinner = ora('Initializing Git repository...').start();
+
+    exec('git init', { cwd: dirPath }, (err) => {
+      if (err) {
+        spinner.fail('Git init failed.');
+        console.warn(err.message);
+        return resolve();
+      }
+
+      exec('git add -A', { cwd: dirPath }, (err) => {
+        if (err) {
+          spinner.fail('Git add failed.');
+          console.warn(err.message);
+          return resolve();
+        }
+
+        exec('git commit -m "Initial commit from create-backend-app"', { cwd: dirPath }, (err) => {
+          if (err) {
+            spinner.fail('Git commit failed.');
+            console.warn(err.message);
+            return resolve();
+          }
+
+          if (!fs.existsSync(path.join(dirPath, '.gitignore'))) {
+            fs.writeFileSync(path.join(dirPath, '.gitignore'), 'node_modules/\n.env');
+          }
+
+          spinner.succeed('Git initialized and initial commit created.');
+          return resolve();
+        });
+      });
+    });
+  });
 }
+
 
 
 program.command('boot-be-app')
