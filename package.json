@@ -1,9 +1,9 @@
 {
-  "name": "backsmith",
+  "name": "beignite",
   "version": "1.10.0",
   "main": "app.js",
   "bin": {
-    "backsmith": "./app.js"
+    "beignite": "./app.js"
   },
   "scripts": {
     "start": "node app.js"
