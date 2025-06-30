@@ -1,6 +1,6 @@
 {
   "name": "backsmith",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "main": "app.js",
   "bin": {
     "boot-be-app": "app.js"
@@ -29,6 +29,6 @@
   "description": "A CLI tool to generate boilerplate code for backend applications",
   "repository": {
     "type": "git",
-    "url":"https://github.com/NishantAsnani/BE-create-app"
+    "url": "https://github.com/NishantAsnani/BE-create-app"
   }
 }
