@@ -1,5 +1,5 @@
 {
-  "name": "be-create-app",
+  "name": "boot-be-app",
   "version": "1.2.0",
   "main": "app.js",
   "bin": {

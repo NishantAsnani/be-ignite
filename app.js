@@ -10,6 +10,10 @@ const { createUtils } = require('./lib/create-utils');
 const { execSync } = require('child_process');
 const {createServices} = require('./lib/create-services');
 const dirPath = process.cwd();
+const fs = require('fs');
+const path = require('path');
+
+
 
 function setupProject() {
   execSync('npm init -y', { cwd: process.cwd(), stdio: 'inherit' });
