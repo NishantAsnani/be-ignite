@@ -1,8 +1,8 @@
 {
   "name": "be-create-app",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "app.js",
-  "bin":{
+  "bin": {
     "be-create-app": "app.js"
   },
   "scripts": {
