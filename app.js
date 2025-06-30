@@ -57,7 +57,7 @@ function tryGitInit() {
 }
 
 
-program.command('create-be-app')
+program.command('boot-be-app')
 .description('Create a new backend application')
 .action(() => {
   try{
