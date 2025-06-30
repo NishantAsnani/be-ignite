@@ -72,7 +72,11 @@ function tryGitInit() {
         return resolve();
       }
 
-      spinner.succeed('Git initialized');
+      if (!fs.existsSync(path.join(dirPath, '.gitignore'))) {
+            fs.writeFileSync(path.join(dirPath, '.gitignore'), 'node_modules\n.env');
+        }
+
+      spinner.succeed('Git repository initialized.');
       return resolve();
     });
   });
