@@ -72,28 +72,8 @@ function tryGitInit() {
         return resolve();
       }
 
-      exec('git add -A', { cwd: dirPath }, (err) => {
-        if (err) {
-          spinner.fail('Git add failed.');
-          console.warn(err.message);
-          return resolve();
-        }
-
-        exec('git commit -m "Initial commit from create-backend-app"', { cwd: dirPath }, (err) => {
-          if (err) {
-            spinner.fail('Git commit failed.');
-            console.warn(err.message);
-            return resolve();
-          }
-
-          if (!fs.existsSync(path.join(dirPath, '.gitignore'))) {
-            fs.writeFileSync(path.join(dirPath, '.gitignore'), 'node_modules/\n.env');
-          }
-
-          spinner.succeed('Git initialized and initial commit created.');
-          return resolve();
-        });
-      });
+      spinner.succeed('Git initialized');
+      return resolve();
     });
   });
 }
