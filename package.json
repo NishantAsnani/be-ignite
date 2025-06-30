@@ -1,9 +1,9 @@
 {
-  "name": "backsmith",
+  "name":"backsmith",
   "version": "1.7.0",
   "main": "app.js",
   "bin": {
-    "boot-be-app": "app.js"
+    "backsmith": "app.js"
   },
   "scripts": {
     "start": "node app.js"
