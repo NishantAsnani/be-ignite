@@ -56,7 +56,7 @@ Your server will start on the port specified in your `.env` file (or the default
 
 ## License
 
-ISC
+This project is licensed under the [MIT License](./LICENSE).
 
 ---
 
