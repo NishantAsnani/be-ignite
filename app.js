@@ -13,6 +13,7 @@ const dirPath = process.cwd();
 const fs = require('fs');
 const path = require('path');
 const ora = require('ora');
+const { checkEnvVars } = require('./helper/env-validator');
 
 
 
