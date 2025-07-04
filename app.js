@@ -16,6 +16,7 @@ const ora = require('ora');
 
 
 
+
 function setupProject() {
   return new Promise((resolve, reject) => {
     const initSpinner = ora('Initializing npm...').start();
