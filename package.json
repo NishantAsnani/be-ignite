@@ -1,6 +1,6 @@
 {
   "name": "beignite",
-  "version": "1.17.0",
+  "version": "1.18.0",
   "main": "app.js",
   "bin": {
     "beignite": "./app.js"
