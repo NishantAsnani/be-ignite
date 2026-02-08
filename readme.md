@@ -29,6 +29,7 @@ Create a `.env` file in your project root (or copy from `.env.example`) and set 
 JWT_SECRET=your_jwt_secret
 PORT=3000
 DB_NAME=your_db_name
+DB_URL=db_connection_url (use if want to connect to mongodb atlas)
 ```
 
 > **Note:** Fall-back values have been added for these environment variables. Setting them in your `.env` file is recommended, but not compulsory—the application will use default values if any are missing.
